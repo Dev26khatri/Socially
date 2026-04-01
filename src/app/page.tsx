@@ -1,20 +1,14 @@
+import CreatePost from "@/components/CreatePost";
+import { currentUser } from "@clerk/nextjs/server";
 import React from "react";
-import {
-  ClerkProvider,
-  Show,
-  SignInButton,
-  SignOutButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ModeToggle";
-const RootPage = () => {
+
+const Home = async () => {
+  const user = await currentUser();
   return (
-    <div>
-      <h1>Home Page</h1>
+    <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
+      <div className="lg:col-span-6">{user ? <CreatePost /> : null}</div>
     </div>
   );
 };
 
-export default RootPage;
+export default Home;

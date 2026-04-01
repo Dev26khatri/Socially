@@ -40,7 +40,7 @@ export async function getUserByClearkId(clerkId: string) {
       clerkId,
     },
     include: {
-      _count: { 
+      _count: {
         select: {
           followers: true,
           following: true,
@@ -49,4 +49,11 @@ export async function getUserByClearkId(clerkId: string) {
       },
     },
   });
+}
+export async function getDbUserId() {
+  const { userId: clerkId } = await auth();
+  if (!clerkId) throw new Error("Unauthorized");
+  const user = await getUserByClearkId(clerkId);
+  if (!user) throw new Error("User not founded");
+  return user.id;
 }
