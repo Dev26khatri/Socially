@@ -1,8 +1,14 @@
 "use client";
 
-import { getPost, toggleLike } from "@/actions/post.action";
+import {
+  createComment,
+  deletePost,
+  getPost,
+  toggleLike,
+} from "@/actions/post.action";
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 type Posts = Awaited<ReturnType<typeof getPost>>;
 type Post = NonNullable<Posts>[number]; //NonNullable becuase this will be undifined or Null
@@ -33,6 +39,22 @@ const PostCard = ({ post, dbUserId }: { post: Post; dbUserId: string }) => {
       setIsLiking(false);
     }
   };
+  const handleAddComment = async () => {
+    if (!newComment.trim() || isCommiting) return;
+    try {
+      setIsCommiting(true);
+      const result = await createComment(post.id, newComment);
+      if (result?.success) {
+        toast.success("Comment post successfully!");
+        setNewComment("");
+      }
+    } catch (error) {
+      toast.error("Failed To Add Comment!");
+    } finally {
+      setIsCommiting(false);
+    }
+  };
+ 
 
   return <div>PostCard</div>;
 };
