@@ -30,6 +30,7 @@ export async function getPost() {
       include: {
         author: {
           select: {
+            id: true,
             name: true,
             image: true,
             username: true,

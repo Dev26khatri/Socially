@@ -19,11 +19,19 @@ const Home = async () => {
     <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
       <div className="lg:col-span-6">
         {user ? <CreatePost /> : null}
-        <div>
-          {post.map((post) => (
-            <PostCard key={post.id} post={post} dbUserId={dbUserId} />
-          ))}
-        </div>
+        {user ? (
+          <div className="space-y-4 mt-4">
+            {post.map((post) => (
+              <PostCard key={post.id} post={post} dbUserId={dbUserId} />
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-4 mt-4">
+            {post.map((post) => (
+              <PostCard key={post.id} post={post} dbUserId={dbUserId} />
+            ))}
+          </div>
+        )}
       </div>
       <div className="hidden lg:block lg:col-span-4 sticky top-20">
         <WhoToFollow />
