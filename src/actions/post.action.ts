@@ -165,4 +165,28 @@ export async function createComment(postId: string, content: string) {
     return { success: false, error: "Failed to create comment!" };
   }
 }
+export async function deletePost(postId: string) {
+  try {
+    const userId = await getDbUserId();
+    if (!userId) throw new Error("User Not Founded");
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      select: { authorId: true },
+    });
+    if (!post) throw new Error("Post Not Found");
 
+    // If you are not author of another Posts so you could't delete that post 
+    if (post.authorId !== userId)
+      throw new Error("Unathorized - no Delete permission you have");
+    await prisma.post.delete({
+      where: { id: postId },
+    });
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.log("Something went wrong to delete post", error);
+    return { success: false, error: "Failed To Delete Post !" };
+  }
+}

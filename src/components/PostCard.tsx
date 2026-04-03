@@ -54,7 +54,20 @@ const PostCard = ({ post, dbUserId }: { post: Post; dbUserId: string }) => {
       setIsCommiting(false);
     }
   };
- 
+  const handleDelete = async () => {
+    if (isDeleting) return;
+    try {
+      setIsDeleting(true);
+      const result = await deletePost(post.id);
+      if (result.success) {
+        toast.success("Post Was Deleted Successfully!");
+      }
+    } catch (error) {
+      toast.error("Failed to delete post!");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return <div>PostCard</div>;
 };
