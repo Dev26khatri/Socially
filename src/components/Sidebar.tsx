@@ -68,7 +68,9 @@ const Sidebar = async () => {
               <div className="flex gap-3 items-center">
                 <LinkIcon className="size-4 " />
                 {user.website ? (
-                  <a href={user.website}>{user.website}</a>
+                  <a target="_blank" href={user.website}>
+                    {user.website}
+                  </a>
                 ) : (
                   "No Website"
                 )}
