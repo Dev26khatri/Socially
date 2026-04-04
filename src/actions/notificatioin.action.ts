@@ -40,7 +40,10 @@ export async function getNotification() {
         createdAt: "desc",
       },
     });
-  } catch (error) {}
+    return notifications;
+  } catch (error) {
+    console.log("Something went wrong with Get Notificaiton");
+  }
 }
 export async function markNotificationsAsRead(notificationId: string[]) {
   try {
