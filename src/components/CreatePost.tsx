@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 import { Ghost, ImageIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { createUser } from "@/actions/post.action";
 import toast from "react-hot-toast";
+import ImageUpload from "./ImageUpload";
 
 const CreatePost = () => {
   const { user } = useUser();
@@ -21,7 +22,7 @@ const CreatePost = () => {
     setIsPosting(true);
     try {
       const result = await createUser(content, imageUrl);
-      if (result.success) {
+      if (result?.success) {
         //Reset the updator
         setContent("");
         setImageUrl("");
@@ -51,6 +52,20 @@ const CreatePost = () => {
               disabled={isPosting}
             />
           </div>
+
+          {(showImageUpload || imageUrl) && (
+            <div className="border rounded-lg p-4">
+              <ImageUpload
+                endpoint="postImage"
+                value={imageUrl}
+                onChange={(url) => {
+                  setImageUrl(url);
+                  if (!url) setShowImageUpload(false);
+                }}
+              />
+            </div>
+          )}
+
           <div className="flex justify-between items-center border-t pt-4">
             <div>
               <Button
