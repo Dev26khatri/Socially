@@ -9,17 +9,17 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Button } from "./ui/button";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
+
 import { getUserByClearkId } from "@/actions/user.action";
 import Link from "next/link";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Separator } from "./ui/separator";
 import { LinkIcon, MapPinIcon } from "lucide-react";
+import UnauthCard from "./UnauthCard";
 
 const Sidebar = async () => {
   const authUser = await currentUser();
-  if (!authUser) return <UnauthSidebar />;
+  if (!authUser) return <UnauthCard />;
 
   const user = await getUserByClearkId(authUser.id);
   if (!user) return null;
@@ -85,27 +85,27 @@ const Sidebar = async () => {
 
 export default Sidebar;
 
-const UnauthSidebar = () => {
-  return (
-    <Card className="p-6 sticky top-20 ">
-      <CardHeader className="flex justify-center flex-col items-center">
-        <CardTitle className="text-2xl font-bold">Welcom Back!</CardTitle>
-        <CardDescription className="text-center text-muted-foreground mb-4">
-          Loggin to access your porfile and connect with others
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-2 ">
-        <SignInButton mode="modal">
-          <Button className="text-lg " variant={"outline"}>
-            Login
-          </Button>
-        </SignInButton>
-        <SignUpButton mode="modal">
-          <Button className="text-lg" variant={"default"}>
-            Sign Up
-          </Button>
-        </SignUpButton>
-      </CardContent>
-    </Card>
-  );
-};
+// const UnauthSidebar = () => {
+//   return (
+//     <Card className="p-6 sticky top-20 ">
+//       <CardHeader className="flex justify-center flex-col items-center">
+//         <CardTitle className="text-2xl font-bold">Welcom Back!</CardTitle>
+//         <CardDescription className="text-center text-muted-foreground mb-4">
+//           Loggin to access your porfile and connect with others
+//         </CardDescription>
+//       </CardHeader>
+//       <CardContent className="flex flex-col gap-2 ">
+//         <SignInButton mode="modal">
+//           <Button className="text-lg " variant={"outline"}>
+//             Login
+//           </Button>
+//         </SignInButton>
+//         <SignUpButton mode="modal">
+//           <Button className="text-lg" variant={"default"}>
+//             Sign Up
+//           </Button>
+//         </SignUpButton>
+//       </CardContent>
+//     </Card>
+//   );
+// };
