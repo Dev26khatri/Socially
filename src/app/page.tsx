@@ -2,16 +2,14 @@ import { getPost } from "@/actions/post.action";
 import { getDbUserId } from "@/actions/user.action";
 import CreatePost from "@/components/CreatePost";
 import PostCard from "@/components/PostCard";
-import UnauthCard from "@/components/UnauthCard";
+import MobileUnauthCard from "@/components/MobileUnauthCard";
 import WhoToFollow from "@/components/WhoToFollow";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import React from "react";
-
 const Home = async () => {
   const user = await currentUser();
   const { userId } = await auth();
-  // console.log(userId);
-  // if (!userId) return <UnauthCard />;
+  console.log(userId);
+  if (!userId) return <MobileUnauthCard />;
 
   const post = await getPost();
   const dbUserId = await getDbUserId();

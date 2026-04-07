@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   CardContent,
@@ -8,9 +9,9 @@ import {
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 
-const UnauthCard = () => {
+const MobileUnauthCard = () => {
   return (
-    <Card className=" p-6 sticky top-20 ">
+    <Card className="block lg:hidden p-6 sticky top-20 ">
       <CardHeader className="flex justify-center flex-col items-center">
         <CardTitle className="text-2xl font-bold">Welcom Back!</CardTitle>
         <CardDescription className="text-center text-muted-foreground mb-4">
@@ -33,4 +34,4 @@ const UnauthCard = () => {
   );
 };
 
-export default UnauthCard;
+export default MobileUnauthCard;

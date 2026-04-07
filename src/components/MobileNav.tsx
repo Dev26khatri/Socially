@@ -32,7 +32,7 @@ function MobileNav() {
   const { isSignedIn } = useAuth();
 
   return (
-    <div className="block md:hidden items-center space-x-2">
+    <div className="block md:hidden items-center space-x-2 ">
       <ModeToggle />
 
       <Sheet open={showMobileMenu} onOpenChange={setShowMobileMenu}>
