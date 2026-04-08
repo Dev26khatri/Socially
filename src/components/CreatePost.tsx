@@ -5,7 +5,7 @@ import { Card, CardContent } from "./ui/card";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
-import { Ghost, ImageIcon, Loader2Icon, SendIcon } from "lucide-react";
+import { Bot, Ghost, ImageIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { createUser } from "@/actions/post.action";
 import toast from "react-hot-toast";
 import ImageUpload from "./ImageUpload";
@@ -51,6 +51,19 @@ const CreatePost = () => {
               onChange={(e) => setContent(e.target.value)}
               disabled={isPosting}
             />
+            <Button variant={"link"} className="" size={"xs"}>
+              <a
+                href="#_"
+                className="relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-md"
+              >
+                <span className="w-full h-full bg-gradient-to-br from-[#ff8a05] via-[#ff5478] to-[#ff00c6] group-hover:from-[#ff00c6] group-hover:via-[#ff5478] group-hover:to-[#ff8a05] absolute"></span>
+                <span className="relative px-8 py-2  transition-all ease-out bg-gray-900 rounded-md group-hover:bg-opacity-0 duration-400">
+                  <span className="relative flex items-center gap-3  text-white">
+                    Generate With AI <Bot />{" "}
+                  </span>
+                </span>
+              </a>
+            </Button>
           </div>
 
           {(showImageUpload || imageUrl) && (
