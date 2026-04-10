@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Avatar } from "./ui/avatar";
 import { AvatarImage } from "./ui/avatar";
 import FollowButton from "./FollowButton";
+import { Separator } from "./ui/separator";
 
 const WhoToFollow = async () => {
   const randomUser = await getRandomUsers();
@@ -16,11 +17,11 @@ const WhoToFollow = async () => {
             <CardTitle>Who To Follow</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="spcae-y-4">
+            <div>
               {randomUser.map((user) => (
                 <div
                   key={user.id}
-                  className="flex justify-between items-center gap-2 "
+                  className="flex justify-between items-center gap-2 space-y-3  "
                 >
                   <div className="flex gap-3 items-center ">
                     <Link href={`/profile/${user.username ?? "/avatar.png"}`}>
