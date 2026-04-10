@@ -20,6 +20,11 @@ const CreatePost = () => {
 
   const improveContent = async () => {
     setIsGenrate(true);
+    if (!content) {
+      toast.error("Please Write Something for content");
+      setIsGenrate(false);
+      return;
+    }
     try {
       const res = await fetch(`/api/groq`, {
         method: "POST",
