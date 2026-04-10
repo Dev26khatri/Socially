@@ -8,7 +8,7 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 const Home = async () => {
   const user = await currentUser();
   const { userId } = await auth();
-  console.log(userId);
+  // console.log(userId);
   if (!userId) return <MobileUnauthCard />;
 
   const post = await getPost();

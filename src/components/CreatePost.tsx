@@ -16,7 +16,28 @@ const CreatePost = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [isPosting, setIsPosting] = useState(false);
   const [showImageUpload, setShowImageUpload] = useState(false);
+  const [isGenrate, setIsGenrate] = useState(false);
 
+  const improveContent = async () => {
+    setIsGenrate(true);
+    try {
+      const res = await fetch(`/api/groq`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+      });
+      const data = await res.json();
+      if (!data) {
+        return null;
+      } else {
+        setContent(data.text);
+      }
+    } catch (error) {
+      console.log("From the client", error);
+    } finally {
+      setIsGenrate(false);
+    }
+  };
   const handleSubmit = async () => {
     if (!content.trim() && !imageUrl) return;
     setIsPosting(true);
@@ -45,25 +66,13 @@ const CreatePost = () => {
               <AvatarImage src={user?.imageUrl || "./avatar.png"} />
             </Avatar>
             <Textarea
-              placeholder="What's your mind ?. Write here"
+              placeholder="What's your mind ?. Write and Click on Genrate"
               className="min-h-28 resize-none border-none bg-transparent   focus-visible:ring-0 p-4 text-base "
+              name="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               disabled={isPosting}
             />
-            <Button variant={"link"} className="" size={"xs"}>
-              <a
-                href="#_"
-                className="relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-md"
-              >
-                <span className="w-full h-full bg-gradient-to-br from-[#ff8a05] via-[#ff5478] to-[#ff00c6] group-hover:from-[#ff00c6] group-hover:via-[#ff5478] group-hover:to-[#ff8a05] absolute"></span>
-                <span className="relative px-8 py-2  transition-all ease-out bg-gray-900 rounded-md group-hover:bg-opacity-0 duration-400">
-                  <span className="relative flex items-center gap-3  text-white">
-                    Generate With AI <Bot />{" "}
-                  </span>
-                </span>
-              </a>
-            </Button>
           </div>
 
           {(showImageUpload || imageUrl) && (
@@ -80,7 +89,35 @@ const CreatePost = () => {
           )}
 
           <div className="flex justify-between items-center border-t pt-4">
-            <div>
+            <Button
+              type="button"
+              variant={"link"}
+              size={"xs"}
+              onClick={improveContent}
+              disabled={isGenrate}
+            >
+              <span className="relative inline-flex items-center justify-center inline-block p-4 px-5 py-3 overflow-hidden font-medium text-indigo-600 rounded-lg shadow-2xl group">
+                <span className="absolute top-0 left-0 w-40 h-40 -mt-10 -ml-3 transition-all duration-700 bg-red-500 rounded-full blur-md ease"></span>
+                <span className="absolute inset-0 w-full h-full transition duration-700 group-hover:rotate-180 ease">
+                  <span className="absolute bottom-0 left-0 w-24 h-24 -ml-10 bg-purple-500 rounded-full blur-md"></span>
+                  <span className="absolute bottom-0 right-0 w-24 h-24 -mr-10 bg-pink-500 rounded-full blur-md"></span>
+                </span>
+                <span className="relative flex gap-2 items-center font-bold text-white">
+                  {isGenrate ? (
+                    <>
+                      Generating..
+                      <Loader2Icon className="animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      Generate With <Bot />
+                    </>
+                  )}
+                </span>
+              </span>
+            </Button>
+
+            <div className="flex gap-2 items-center">
               <Button
                 type="button"
                 variant={"ghost"}
@@ -91,24 +128,24 @@ const CreatePost = () => {
                 <ImageIcon className="size-4 mr-2" />
                 Photo
               </Button>
+              <Button
+                className="flex items-center "
+                onClick={handleSubmit}
+                disabled={(!content.trim() && !imageUrl) || isPosting}
+              >
+                {isPosting ? (
+                  <>
+                    <Loader2Icon className=" animate-spin mr-2" />
+                    ....Posting
+                  </>
+                ) : (
+                  <>
+                    <SendIcon className="size-3" />
+                    Post
+                  </>
+                )}
+              </Button>
             </div>
-            <Button
-              className="flex items-center "
-              onClick={handleSubmit}
-              disabled={(!content.trim() && !imageUrl) || isPosting}
-            >
-              {isPosting ? (
-                <>
-                  <Loader2Icon className=" animate-spin mr-2" />
-                  ....Posting
-                </>
-              ) : (
-                <>
-                  <SendIcon className="size-3" />
-                  Post
-                </>
-              )}
-            </Button>
           </div>
         </div>
       </CardContent>
